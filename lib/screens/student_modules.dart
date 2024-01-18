@@ -18,7 +18,6 @@ class StudentModulesPage extends StatelessWidget {
       List<Map<String, dynamic>> enrolledModules = enrollesSnapshot.docs
           .map((doc) => {
                 'moduleName': doc['moduleName'].toString(),
-                // Add other module details here if needed
               })
           .toList();
 
@@ -34,7 +33,7 @@ class StudentModulesPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Modules',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
@@ -86,7 +85,7 @@ class StudentModulesPage extends StatelessWidget {
                     child: Text(
                       'Enroll in New Module',
                       style: TextStyle(
-                        color: Color(0xFF2196F3), // Border color
+                        color: Color(0xFF2196F3),
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -105,20 +104,14 @@ class StudentModulesPage extends StatelessWidget {
     return Card(
       elevation: 4.0,
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      color: Color(0xFF90CAF9),
+      color: Color(0xFFB3E5FC),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: ListTile(
         title: Text(
           module['moduleName'] ?? 'No Name',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18.0,
-            color: Color(0xFF2962FF),
-          ),
         ),
-        // You can add other module details here if needed
       ),
     );
   }

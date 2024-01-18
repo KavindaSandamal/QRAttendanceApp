@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrattendanceapp/models/enrolle_model.dart';
 
 class EnrollmentFormPage extends StatefulWidget {
@@ -22,10 +22,8 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
     'Semester 8'
   ];
 
-  // Function to fetch modules in the selected semester
   Future<List<Map<String, dynamic>>> _fetchModulesInSemester(
       String semester) async {
-    // Replace 'Modules' with your actual collection name
     CollectionReference modulesCollection =
         FirebaseFirestore.instance.collection('Modules');
 
@@ -46,13 +44,11 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
     }
   }
 
-  // Function to handle enrollment
   Future<void> _enrollModule(
     String moduleId,
     String moduleName,
     String moduleCode,
   ) async {
-    // Replace 'Enrolles' with your actual collection name
     CollectionReference enrollesCollection =
         FirebaseFirestore.instance.collection('Enrolles');
 
@@ -61,15 +57,12 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
 
     if (studentId != null) {
       await enrollesCollection.add({
-        'moduleId': moduleId, // Save moduleId along with other details
+        'moduleId': moduleId,
         'moduleName': moduleName,
         'moduleCode': moduleCode,
         'studentId': studentId,
       });
 
-      // You can add more logic here if needed
-
-      // Show AlertDialog to inform the user about the successful enrollment
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -80,7 +73,7 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Close the AlertDialog
+                  Navigator.pop(context);
                 },
                 child: Text('OK'),
               ),
@@ -89,7 +82,6 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
         },
       );
     } else {
-      // Handle the case where the user is not authenticated
       print('User not authenticated');
     }
   }
@@ -110,8 +102,6 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
                   title: Text(
                       '${modules[index]['moduleName']} - ${modules[index]['moduleCode']}'),
                   onTap: () {
-                    // Call the function to enroll in the selected module
-                    // Pass the selected module's ID, name, and code to the function
                     _enrollModule(
                       modules[index]['id'],
                       modules[index]['moduleName'],
@@ -138,40 +128,44 @@ class _EnrollmentFormPageState extends State<EnrollmentFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.0),
-        child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
-          title: Text(
-            'Enrolle in module',
-            style: TextStyle(color: Colors.white, fontSize: 25.0),
-          ),
-          centerTitle: true, // Center the title horizontally
+      appBar: AppBar(
+        backgroundColor: Color(0xFF03A9F4),
+        title: Text(
+          'Enroll in Module',
+          style: TextStyle(color: Colors.white, fontSize: 25.0),
         ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Select Semester:'),
+            Text(
+              'Select Semester:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8.0),
             Expanded(
               child: ListView.builder(
                 itemCount: semesters.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(semesters[index]),
-                    onTap: () async {
-                      setState(() {
-                        selectedSemester = semesters[index];
-                      });
+                  return Card(
+                    elevation: 3.0,
+                    color: Color(0xFFB3E5FC),
+                    margin: EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(semesters[index]),
+                      onTap: () async {
+                        setState(() {
+                          selectedSemester = semesters[index];
+                        });
 
-                      List<
-                          Map<String,
-                              dynamic>> modules = await _fetchModulesInSemester(
-                          selectedSemester); // Fetch modules when semester changes
-                      _showModulesPopup(modules); // Show modules in a popup
-                    },
+                        List<Map<String, dynamic>> modules =
+                            await _fetchModulesInSemester(selectedSemester);
+                        _showModulesPopup(modules);
+                      },
+                    ),
                   );
                 },
               ),

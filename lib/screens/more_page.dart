@@ -11,12 +11,12 @@ class MorePage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'More',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: ListView(
@@ -29,9 +29,7 @@ class MorePage extends StatelessWidget {
             );
           }),
           SizedBox(height: 16.0),
-          _buildListTile(Icons.calendar_today, 'Attendance', () {
-            // Add your Attendance logic here
-          }),
+          _buildListTile(Icons.calendar_today, 'Attendance', () {}),
           SizedBox(height: 16.0),
           _buildListTile(Icons.settings, 'Settings', () {
             Navigator.push(
@@ -52,18 +50,14 @@ class MorePage extends StatelessWidget {
     try {
       await FirebaseAuth.instance.signOut();
 
-      // Close the current screen (More page)
       Navigator.pop(context);
 
-      // Check if there are any existing routes before navigating
       if (Navigator.of(context).canPop()) {
-        // Navigate to the login or home page as needed
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
-        ); // Example: Navigate to login page
+        );
       } else {
-        // If there are no existing routes, you might want to navigate to the login page directly
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
@@ -71,8 +65,6 @@ class MorePage extends StatelessWidget {
       }
     } catch (e) {
       print('Error logging out: $e');
-      // Handle logout error
-      // Show a message or navigate to an error page as needed
     }
   }
 

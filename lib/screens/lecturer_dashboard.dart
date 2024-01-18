@@ -22,7 +22,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
   final User? currentUser = FirebaseAuth.instance.currentUser;
   int _currentIndex = 0;
 
-  // Function to fetch the full name of the current user
   Future<String?> _fetchFullName(String uid) async {
     try {
       DocumentSnapshot userSnapshot =
@@ -34,12 +33,11 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
     }
   }
 
-  // Function to build the app bar
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(70.0),
       child: AppBar(
-        backgroundColor: Color(0xFF2962FF),
+        backgroundColor: Color(0xFF03A9F4),
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -102,10 +100,7 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
           IconButton(
             icon: Icon(Icons.notifications),
             color: Colors.white,
-            onPressed: () {
-              // Add your notification button logic here
-              // For example, you can show a notification dialog or navigate to a notification page.
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -138,24 +133,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
       body: Center(
         child: _buildPage(_currentIndex),
       ),
-      floatingActionButton: ClipOval(
-          /*child: FloatingActionButton(
-          onPressed: () async {
-            // Replace this with your logic to fetch or generate module IDs
-            List<String> moduleIds = await fetchModuleIds();
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => GenerateQrCode(moduleIds: moduleIds),
-              ),
-            );
-          },
-          child: Icon(Icons.qr_code, color: Colors.white),
-          backgroundColor: Color(0xFF2196F3),
-        ),*/
-          ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         elevation: 0.0,
         color: Colors.white,
@@ -173,7 +150,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
     );
   }
 
-  // Function to build the individual navigation bar item
   Widget _buildNavBarItem(IconData icon, int index) {
     return Container(
       decoration: BoxDecoration(
@@ -200,7 +176,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
     );
   }
 
-  // Function to build the home page
   Widget _buildHomePage() {
     return Container(
       color: Color.fromARGB(255, 255, 255, 255),
@@ -236,10 +211,8 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
                       Map<String, dynamic> lectureData =
                           lectureSnapshot.data!.data() as Map<String, dynamic>;
 
-                      // Check if 'title' is not null before casting
                       String title = lectureData['moduleName'] ?? 'N/A';
 
-                      // Check if 'dateTime' is not null before casting
                       Timestamp? timestamp = lectureData['dateTime'];
                       DateTime lectureDateTime =
                           timestamp?.toDate() ?? DateTime.now();
@@ -274,7 +247,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
                           ),
                           trailing: Icon(Icons.arrow_forward_ios),
                           onTap: () {
-                            // Navigate to ModuleAttendanceDetailsScreen with both moduleId and lectureId
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -299,7 +271,6 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
     );
   }
 
-  // Function to determine which page to display based on the selected index
   Widget _buildPage(int index) {
     Widget page;
 

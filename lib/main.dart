@@ -15,7 +15,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp(); // Add const here
+  const MyApp();
 
   @override
   Widget build(BuildContext context) {

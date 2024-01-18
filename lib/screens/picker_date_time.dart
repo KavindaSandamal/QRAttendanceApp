@@ -19,7 +19,6 @@ class PickerDateTimeRouteState extends State<PickerDateTimeRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
           const Spacer(flex: 10),
@@ -78,13 +77,11 @@ class PickerDateTimeRouteState extends State<PickerDateTimeRoute> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              // primary: MyColors.primary,
               primary: Theme.of(context).colorScheme.primary,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
             ),
-            //.dialogBackgroundColor:Colors.blue[900],
           ),
           child: child!,
         );
@@ -110,13 +107,11 @@ class PickerDateTimeRouteState extends State<PickerDateTimeRoute> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              // primary: MyColors.primary,
               primary: Theme.of(context).colorScheme.primary,
               onPrimary: Colors.white,
               surface: Colors.white,
               onSurface: Colors.black,
             ),
-            //.dialogBackgroundColor:Colors.blue[900],
           ),
           child: child!,
         );

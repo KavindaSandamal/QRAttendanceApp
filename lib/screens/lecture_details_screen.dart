@@ -74,18 +74,16 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
   // Function to add a lecture
   void _addLecture(
       String date, String time, String place, Modules? selectedModule) async {
-    String lecturerId = FirebaseAuth.instance.currentUser?.uid ??
-        ''; // Get the current lecturer's ID
+    String lecturerId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (selectedModule != null) {
       var docRef = await lecturesCollection.add({
-        'lecturerId': lecturerId, // Add the lecturerId field
+        'lecturerId': lecturerId,
         'moduleId': selectedModule.id,
         'moduleName': selectedModule.moduleName,
         'date': date,
         'time': time,
         'place': place,
-        // Add other details as needed
       });
 
       String lectureId = docRef.id;
@@ -99,7 +97,6 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
           date: date,
           time: time,
           place: place,
-          // Add other details as needed
         ));
       });
     }
@@ -115,27 +112,23 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
   }
 
   Color _getModuleColor(String moduleId) {
-    // You can implement your logic to assign a unique color for each module
-    // For simplicity, let's use a predefined list of colors
     List<Color> moduleColors = [
       Colors.blue,
       Colors.green,
       Colors.orange,
       Colors.purple,
-      // Add more colors as needed
     ];
 
     int index = allModules.indexWhere((module) => module.id == moduleId);
     if (index >= 0 && index < moduleColors.length) {
       return moduleColors[index];
     } else {
-      // Default color if the module is not found or doesn't have a specific color
       return Colors.grey;
     }
   }
 
   Future<bool> _showGenerateQrConfirmation(Lecture lecture) async {
-    bool confirmGenerate = false; // Default value
+    bool confirmGenerate = false;
 
     await showDialog(
       context: context,
@@ -146,14 +139,14 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context, false); // No, don't generate QR code
+                Navigator.pop(context, false);
               },
               child: Text('No'),
             ),
             TextButton(
               onPressed: () {
                 confirmGenerate = true;
-                Navigator.pop(context, true); // Yes, generate QR code
+                Navigator.pop(context, true);
               },
               child: Text('Yes'),
             ),
@@ -220,7 +213,6 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
         }
       }
 
-      // Get the downloads directory with lecle_downloads_path_provider
       Directory? downloadsDirectory = await DownloadsPath.downloadsDirectory();
       String? downloadsDirectoryPath = downloadsDirectory?.path;
 
@@ -231,12 +223,6 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
 
       print('PDF saved to: $filePath');
 
-      // Show the PDF using a PDF viewer (you can use a package like pdf_viewer)
-      // You need to implement this part based on your chosen PDF viewer package
-
-      // After showing the PDF, you can add a button to trigger the download
-      // For example, add a FlatButton to your UI
-
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -244,7 +230,6 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
             title: Text('QR Code Generated'),
             content: Column(
               children: [
-                // Use QrImage directly to display the QR code
                 SizedBox(
                   width: 200.0,
                   height: 200.0,
@@ -254,13 +239,11 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                // Add a button to download the PDF
                 TextButton(
                   onPressed: () async {
-                    // Display a message or take further actions as needed
                     print('PDF saved to: $filePath');
 
-                    Navigator.pop(context); // Close the dialog
+                    Navigator.pop(context);
                   },
                   child: Text('Download PDF'),
                 ),
@@ -276,10 +259,8 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
     await _generateQrCode(lecture);
   }
 
-  // Function to generate QR code data based on lecture ID
   String _generateQrData(String lectureId, String lecturerId, String moduleId,
       String date, String time, String place) {
-    // Concatenate lecture details into a string
     String qrData = "$lectureId|$lecturerId|$moduleId|$date|$time|$place";
     return qrData;
   }
@@ -315,7 +296,6 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
                   'Place: ${lecture.place}',
                   style: TextStyle(color: Colors.white),
                 ),
-                // Add other details as needed
               ],
             ),
             trailing: Row(
@@ -336,7 +316,7 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
     );
   }
 
-  Color pageBackgroundColor = Colors.white; // Initial background color
+  Color pageBackgroundColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
@@ -344,7 +324,7 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Lecture Details',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
@@ -353,23 +333,19 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
         ),
       ),
       body: GestureDetector(
-        // GestureDetector for the entire screen
         onPanUpdate: (details) {
-          // Detect swipe gestures
           if (details.delta.dx > 0) {
-            // Right swipe
             setState(() {
-              pageBackgroundColor = Colors.green; // Change background color
+              pageBackgroundColor = Colors.green;
             });
           } else if (details.delta.dx < 0) {
-            // Left swipe
             setState(() {
-              pageBackgroundColor = Colors.red; // Change background color
+              pageBackgroundColor = Colors.red;
             });
           }
         },
         child: Container(
-          color: pageBackgroundColor, // Set the background color of the page
+          color: pageBackgroundColor,
           child: allModules.isNotEmpty
               ? ListView.builder(
                   itemCount: allModules.length,
@@ -380,15 +356,14 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
                         .toList();
 
                     return Dismissible(
-                      key: Key(module.id), // Unique key for each module
+                      key: Key(module.id),
                       onDismissed: (direction) {
-                        // Handle dismiss (swipe) action
                         setState(() {
-                          allModules.removeAt(index); // Remove the module
+                          allModules.removeAt(index);
                         });
                       },
                       background: Container(
-                        color: Colors.grey, // Background color on swipe
+                        color: Colors.grey,
                       ),
                       child: Card(
                         elevation: 5.0,
@@ -487,8 +462,7 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
             return AlertDialog(
               title: Text('Add Lecture'),
               content: Container(
-                width: MediaQuery.of(context).size.width *
-                    0.8, // Set a maximum width
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -592,15 +566,12 @@ class _LectureDetailsScreenState extends State<LectureDetailsScreen> {
 class Utils {
   static String getFormattedDateSimple(String dateString) {
     try {
-      // Convert milliseconds to DateTime
       DateTime parsedDate =
           DateTime.fromMillisecondsSinceEpoch(int.parse(dateString));
 
-      // Format the DateTime object
       DateFormat newFormat = DateFormat("MM/dd/yyyy");
       return newFormat.format(parsedDate);
     } catch (e) {
-      // If parsing fails, assume it's already a valid DateTime object and return it
       return dateString;
     }
   }

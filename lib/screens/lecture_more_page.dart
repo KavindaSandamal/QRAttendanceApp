@@ -11,28 +11,25 @@ class LectureMorePage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'More',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: ListView(
         padding: EdgeInsets.all(16.0),
         children: [
           _buildListTile(Icons.person, 'My Profile', () {
-            // Navigate to ProfileDetails page
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProfileDetails()),
             );
           }),
           SizedBox(height: 16.0),
-          _buildListTile(Icons.calendar_today, 'Attendance', () {
-            // Add your Attendance logic here
-          }),
+          _buildListTile(Icons.calendar_today, 'Attendance', () {}),
           SizedBox(height: 16.0),
           _buildListTile(Icons.settings, 'Settings', () {
             Navigator.push(
@@ -75,17 +72,14 @@ class LectureMorePage extends StatelessWidget {
   void _logout(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.pop(context); // Close the More page after logout
-      // Navigate to the login or home page as needed
-      // You can replace MaterialPageRoute with the appropriate page
+      Navigator.pop(context);
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
       );
     } catch (e) {
       print('Error logging out: $e');
-      // Handle logout error
-      // Show a message or navigate to an error page as needed
     }
   }
 }

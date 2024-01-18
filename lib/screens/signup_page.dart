@@ -26,7 +26,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   void initState() {
     super.initState();
-    selectedRole = UserRole.student; // Default role is student
+    selectedRole = UserRole.student;
   }
 
   Future<void> createUser(
@@ -38,7 +38,6 @@ class _SignupPageState extends State<SignupPage> {
         'email': user.email,
         'password': user.password,
         'role': user.role,
-        // Add other fields as needed
       });
     } catch (e) {
       print('Error creating user: $e');
@@ -65,15 +64,13 @@ class _SignupPageState extends State<SignupPage> {
       await _userRepository.createUser(
         user,
         userCredential.user!.uid,
-        null, // No profile photo
+        null,
       );
 
-      // Save user data to Firestore with additional fields
       await createUser(user, userCredential.user!.uid, null);
 
       print("User Registered: ${userCredential.user!.email}");
 
-      // Show success dialog
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -84,7 +81,7 @@ class _SignupPageState extends State<SignupPage> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  // Navigate to the login page after closing the dialog
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
