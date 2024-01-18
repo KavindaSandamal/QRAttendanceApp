@@ -6,6 +6,7 @@ import 'package:qrattendanceapp/screens/admin_dashboard.dart';
 import 'package:qrattendanceapp/screens/lecturer_dashboard.dart';
 import 'signup_page.dart';
 
+//test
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
