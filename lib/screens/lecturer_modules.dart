@@ -33,7 +33,6 @@ class _LecturerModulesState extends State<LecturerModules> {
           .where('lecturerId', isEqualTo: lecturerId)
           .get();
 
-      // Check if the widget is still mounted before updating the state
       if (mounted) {
         setState(() {
           modules = moduleSnapshot.docs
@@ -84,7 +83,7 @@ class _LecturerModulesState extends State<LecturerModules> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Modules',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
@@ -132,7 +131,6 @@ class _LecturerModulesState extends State<LecturerModules> {
                         },
                       ),
                       onTap: () {
-                        // Navigate to attendance details screen with moduleId and lectureId
                         Navigator.push(
                           context,
                           MaterialPageRoute(

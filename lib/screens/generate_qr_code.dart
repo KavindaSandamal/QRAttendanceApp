@@ -19,7 +19,7 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Generate QR',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
@@ -63,12 +63,9 @@ class _GenerateQrCodeState extends State<GenerateQrCode> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your logic to generate QR code for the selected lecture
           if (selectedLectureId.isNotEmpty) {
-            // Generate QR code for selectedLectureId
             print('Generating QR for Lecture ID: $selectedLectureId');
           } else {
-            // No lecture selected
             print('Please select a lecture to generate QR code');
           }
         },

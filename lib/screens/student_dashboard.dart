@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrattendanceapp/screens/login_page.dart';
 import 'package:qrattendanceapp/screens/more_page.dart';
-import 'package:qrattendanceapp/screens/nottification_page.dart'; // Corrected import statement
+import 'package:qrattendanceapp/screens/nottification_page.dart';
 import 'package:qrattendanceapp/screens/nottification_page.dart';
 import 'package:qrattendanceapp/screens/profile.dart';
 import 'package:qrattendanceapp/screens/qr_code_screen.dart';
@@ -48,7 +48,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
               );
             },
             child: Icon(Icons.qr_code, color: Colors.white),
-            backgroundColor: Color(0xFF2196F3),
+            backgroundColor: Color(0xFF03A9F4),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -73,7 +73,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
     return PreferredSize(
       preferredSize: Size.fromHeight(70.0),
       child: AppBar(
-        backgroundColor: Color(0xFF2962FF),
+        backgroundColor: Color(0xFF03A9F4),
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -136,10 +136,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
           IconButton(
             icon: Icon(Icons.notifications),
             color: Colors.white,
-            onPressed: () {
-              // Add your notification button logic here
-              // For example, you can show a notification dialog or navigate to a notification page.
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -213,7 +210,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       return Card(
                         elevation: 4.0,
                         margin: EdgeInsets.symmetric(vertical: 8.0),
-                        color: Color(0xFF90CAF9), // Card background color
+                        color: Color(0xFFB3E5FC), // Card background color
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -247,9 +244,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
                               ),
                             ],
                           ),
-                          onTap: () {
-                            // Handle lecture tap
-                          },
+                          onTap: () {},
                         ),
                       );
                     },
@@ -265,13 +260,11 @@ class _StudentDashboardState extends State<StudentDashboard> {
 
   Future<List<Map<String, dynamic>>> _fetchRecentLectures() async {
     try {
-      // Replace 'Enrolles' with your actual collection name
       CollectionReference enrollesCollection =
           FirebaseFirestore.instance.collection('Enrolles');
 
       String? studentId = FirebaseAuth.instance.currentUser?.uid;
 
-      // Step 1: Fetch the enrolled modules
       QuerySnapshot enrolledModulesSnapshot = await enrollesCollection
           .where('studentId', isEqualTo: studentId)
           .get();
@@ -280,11 +273,9 @@ class _StudentDashboardState extends State<StudentDashboard> {
           .map((enrolledModule) => enrolledModule['moduleId'].toString())
           .toList();
 
-      // Replace 'Lectures' with your actual collection name
       CollectionReference lecturesCollection =
           FirebaseFirestore.instance.collection('Lectures');
 
-      /// Step 2: Fetch lectures for each enrolled module
       List<Map<String, dynamic>> recentLectures = [];
 
       for (String moduleId in enrolledModuleIds) {
@@ -292,7 +283,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
             .where('moduleId', isEqualTo: moduleId)
             .get();
 
-        // Use if statement to ensure only one lecture is added
         if (lecturesSnapshot.docs.isNotEmpty) {
           var lecture = lecturesSnapshot.docs.first;
           recentLectures.add({
@@ -300,7 +290,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
             'lectureTime': lecture['time'],
             'lecturePlace': lecture['place'],
             'moduleName': lecture['moduleName'],
-            // You can add other fields as needed
           });
         }
       }
@@ -320,7 +309,7 @@ class _StudentDashboardState extends State<StudentDashboard> {
         page = _buildHomePage();
         break;
       case 1:
-        page = StudentModulesPage(); // Navigate to student_modules page
+        page = StudentModulesPage();
         break;
       case 2:
         page = NotificationPage();

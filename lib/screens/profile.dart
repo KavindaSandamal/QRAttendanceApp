@@ -41,9 +41,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundImage: _selectedImage != null
                         ? FileImage(_selectedImage!)
                         : (currentUser?.photoURL != null
-                        ? NetworkImage(currentUser!.photoURL!)
-                        : AssetImage('lib/assets/profile.png') as ImageProvider<Object> // Explicit cast
-                    ),
+                            ? NetworkImage(currentUser!.photoURL!)
+                            : AssetImage('lib/assets/profile.png')
+                                as ImageProvider<Object> // Explicit cast
+                        ),
                     radius: 50.0,
                   ),
                 ),
@@ -77,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 child: Text('Upload Profile Photo'),
               ),
-              SizedBox(height: 16.0), // Add some space
+              SizedBox(height: 16.0),
             ],
             PasswordChangeForm(),
           ],
@@ -100,15 +101,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _uploadProfilePhoto(String userId) async {
     try {
       if (_selectedImage == null || userId == null || userId.isEmpty) {
-        print('Invalid user ID or no image selected to upload. UserId: $userId');
+        print(
+            'Invalid user ID or no image selected to upload. UserId: $userId');
         return;
       }
 
       String fileName = 'profile_photos/$userId.png';
       firebase_storage.Reference storageReference =
-      firebase_storage.FirebaseStorage.instance.ref().child(fileName);
+          firebase_storage.FirebaseStorage.instance.ref().child(fileName);
 
-      // Check if the file exists by attempting to get its download URL
       try {
         await storageReference.getDownloadURL();
       } catch (e) {
@@ -116,15 +117,17 @@ class _ProfilePageState extends State<ProfilePage> {
         return;
       }
 
-      firebase_storage.UploadTask uploadTask = storageReference.putFile(_selectedImage!);
+      firebase_storage.UploadTask uploadTask =
+          storageReference.putFile(_selectedImage!);
       await uploadTask.whenComplete(() => null);
       String downloadUrl = await storageReference.getDownloadURL();
 
-      // Now you have the downloadUrl, you can use it as needed.
       print('Profile photo uploaded. Download URL: $downloadUrl');
 
-      // Update the user's profile photo URL in the Firestore database
-      await FirebaseFirestore.instance.collection('Users').doc(userId).update({'profilePhotoUrl': downloadUrl});
+      await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userId)
+          .update({'profilePhotoUrl': downloadUrl});
     } catch (e) {
       print('Error uploading profile photo: $e');
       throw Exception('Failed to upload profile photo');
@@ -133,7 +136,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<String?> _fetchFullName(String uid) async {
     try {
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
       return userSnapshot['FullName'];
     } catch (e) {
       print('Error fetching fullName: $e');
@@ -180,10 +184,6 @@ class _PasswordChangeFormState extends State<PasswordChangeForm> {
             print('Current Password: $currentPassword');
             print('New Password: $newPassword');
 
-            // Add logic to change the password
-            // ...
-
-            // Navigate back to the previous page (ProfilePage)
             Navigator.pop(context);
           },
           child: Text('Change Password'),

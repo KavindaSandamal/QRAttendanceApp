@@ -53,12 +53,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Admin',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>?>(
@@ -77,7 +77,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               itemCount: pendingRequests.length,
               itemBuilder: (context, index) {
                 Map<String, dynamic> request = pendingRequests[index];
-                print('Request: $request'); // Add this line for debugging
+                print('Request: $request');
 
                 return ListTile(
                   title: Text(request['fullname'] ?? ''),

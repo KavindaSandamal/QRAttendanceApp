@@ -7,12 +7,12 @@ class ReportScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'Report',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: Center(

@@ -112,12 +112,12 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'QR Code Scanner',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: Column(
@@ -139,7 +139,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                             if (studentId != null && qrText.length >= 20) {
                               _submitAttendance(
                                   studentId, qrText.substring(0, 20));
-                              // Disable scanning to prevent multiple calls
+
                               isScanning = false;
                             }
                           });

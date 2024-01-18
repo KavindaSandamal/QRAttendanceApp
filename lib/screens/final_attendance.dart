@@ -14,12 +14,12 @@ class FinalAttendance extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
-            backgroundColor: Color(0xFF2962FF),
+            backgroundColor: Color(0xFF03A9F4),
             title: Text(
               'Module Attendance Details',
               style: TextStyle(color: Colors.white, fontSize: 25.0),
             ),
-            centerTitle: true, // Center the title horizontally
+            centerTitle: true,
           ),
         ),
         body: FutureBuilder<DataTable>(
@@ -31,7 +31,7 @@ class FinalAttendance extends StatelessWidget {
               print('Error building DataTable: ${snapshot.error}');
               return Center(child: Text('Error building DataTable'));
             } else {
-              return snapshot.data ?? Container(); // or handle empty case
+              return snapshot.data ?? Container();
             }
           },
         ));
@@ -69,7 +69,7 @@ class FinalAttendance extends StatelessWidget {
               .get();
 
       List<DataColumn> dateColumns = lecturesSnapshot.docs.map((doc) {
-        String date = doc['date'] ?? ''; // Use it as String
+        String date = doc['date'] ?? '';
         return DataColumn(label: Text('$date'));
       }).toList();
 
@@ -112,21 +112,16 @@ class FinalAttendance extends StatelessWidget {
             } else {
               String attendanceStatus = attendanceSnapshot.data ?? 'N/A';
 
-              // Display blue tick for 'Present' and red cross for 'Absent'
               IconData icon = attendanceStatus == 'Present'
                   ? Icons.check_circle
                   : attendanceStatus == 'Absent'
                       ? Icons.cancel
-                      : Icons
-                          .error; // You can customize the icon for other cases
-
+                      : Icons.error;
               Color iconColor = attendanceStatus == 'Present'
                   ? Colors.blue
                   : attendanceStatus == 'Absent'
                       ? Colors.red
-                      : Colors
-                          .grey; // You can customize the color for other cases
-
+                      : Colors.grey;
               return Icon(
                 icon,
                 color: iconColor,

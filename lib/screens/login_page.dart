@@ -6,7 +6,6 @@ import 'package:qrattendanceapp/screens/admin_dashboard.dart';
 import 'package:qrattendanceapp/screens/lecturer_dashboard.dart';
 import 'signup_page.dart';
 
-//test
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,14 +24,12 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text,
       );
 
-      // If login is successful, clear fields and check user role
       setState(() {
         _emailController.clear();
         _passwordController.clear();
         _errorMessage = '';
       });
 
-      // Check if the authenticated user is an admin
       if (userCredential.user != null) {
         DocumentSnapshot adminDoc = await FirebaseFirestore.instance
             .collection('Admin')
@@ -40,16 +37,14 @@ class _LoginPageState extends State<LoginPage> {
             .get();
 
         if (adminDoc.exists) {
-          // User found in the Admin collection
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AdminDashboard()),
           );
-          return; // Return to avoid executing the remaining code
+          return;
         }
       }
 
-      // Continue checking the role in the Users collection
       DocumentSnapshot userDoc = await FirebaseFirestore.instance
           .collection('Users')
           .doc(userCredential.user!.uid)
@@ -71,19 +66,15 @@ class _LoginPageState extends State<LoginPage> {
             );
             break;
           case 'pending':
-            // Display a message that access is pending
             _showAccessPendingDialog();
             break;
           default:
-            // Handle unknown role
             print('Unknown role: $role');
         }
       } else {
-        // Handle case where userDoc doesn't exist
         _showInvalidUserDialog();
       }
     } catch (e) {
-      // Handle login error and update the error message
       setState(() {
         _errorMessage = 'Invalid email or password. Please try again.';
       });
@@ -92,7 +83,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // Helper method to show a dialog for pending access
   void _showAccessPendingDialog() {
     showDialog(
       context: context,
@@ -113,7 +103,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Helper method to show a dialog for invalid user
   void _showInvalidUserDialog() {
     showDialog(
       context: context,

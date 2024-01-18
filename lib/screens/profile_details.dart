@@ -27,12 +27,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.0),
         child: AppBar(
-          backgroundColor: Color(0xFF2962FF),
+          backgroundColor: Color(0xFF03A9F4),
           title: Text(
             'My Profile',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
       body: Padding(
@@ -91,9 +91,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     Icons.edit,
                     color: Colors.white,
                   ),
-                  onPressed: () {
-                    // Add your edit profile picture logic here
-                  },
+                  onPressed: () {},
                 ),
               ),
             ],
@@ -121,7 +119,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   _buildField(
                       'Registration Number', userDetails['regNo'] ?? ''),
                   _buildField('Email', userDetails['email'] ?? ''),
-                  // Add more fields as needed
                 ],
               ),
             ),
