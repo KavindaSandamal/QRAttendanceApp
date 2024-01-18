@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrattendanceapp/screens/login_page.dart';
 import 'package:qrattendanceapp/screens/more_page.dart';
+import 'package:qrattendanceapp/screens/nottification_page.dart'; // Corrected import statement
 import 'package:qrattendanceapp/screens/nottification_page.dart';
 import 'package:qrattendanceapp/screens/profile.dart';
 import 'package:qrattendanceapp/screens/qr_code_screen.dart';
@@ -28,10 +29,51 @@ class _StudentDashboardState extends State<StudentDashboard> {
     }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: _currentIndex == 0 ? _buildAppBar() : null,
+        body: Center(
+          child: _buildPage(_currentIndex),
+        ),
+        floatingActionButton: ClipOval(
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QrCodeScreen(),
+                ),
+              );
+            },
+            child: Icon(Icons.qr_code, color: Colors.white),
+            backgroundColor: Color(0xFF2196F3),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavBarItem(Icons.home, 0),
+              _buildNavBarItem(Icons.receipt, 1),
+              _buildNavBarItem(Icons.notifications, 2),
+              _buildNavBarItem(Icons.more_horiz, 3),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: Size.fromHeight(70.0),
       child: AppBar(
+        backgroundColor: Color(0xFF2962FF),
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -39,17 +81,17 @@ class _StudentDashboardState extends State<StudentDashboard> {
           },
           child: Icon(
             Icons.arrow_back_ios,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         title: FutureBuilder<String?>(
           future: _fetchFullName(currentUser!.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Welcome', style: TextStyle(color: Colors.black));
+              return Text('Welcome', style: TextStyle(color: Colors.white));
             } else if (snapshot.hasError) {
               return Text('Error fetching full name',
-                  style: TextStyle(color: Colors.black));
+                  style: TextStyle(color: Colors.white));
             } else {
               String fullName = snapshot.data ?? 'N/A';
               return Row(
@@ -68,20 +110,20 @@ class _StudentDashboardState extends State<StudentDashboard> {
                       radius: 20.0,
                     ),
                   ),
-                  SizedBox(width: 8.0), // Reduced SizedBox width
+                  SizedBox(width: 8.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Welcome Back',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 23.0,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         fullName,
-                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -104,45 +146,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _currentIndex == 0 ? _buildAppBar() : null,
-      body: Center(
-        child: _buildPage(_currentIndex),
-      ),
-      floatingActionButton: ClipOval(
-        child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QrCodeScreen(),
-              ),
-            );
-          },
-          child: Icon(Icons.qr_code, color: Colors.white),
-          backgroundColor: Color(0xFF2196F3),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0.0, // Set elevation to 0.0
-        color: Colors.white,
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavBarItem(Icons.home, 0),
-            _buildNavBarItem(Icons.receipt, 1),
-            _buildNavBarItem(Icons.notifications, 2),
-            _buildNavBarItem(Icons.more_horiz, 3),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildNavBarItem(IconData icon, int index) {
     return Container(
       decoration: BoxDecoration(
@@ -157,55 +160,70 @@ class _StudentDashboardState extends State<StudentDashboard> {
       child: IconButton(
         icon: Icon(
           icon,
-          color: _currentIndex == index ? Color(0xFF2196F3) : Color(0xFF64B5F6),
+          color: _currentIndex == index ? Colors.blue : Color(0xFF90CAF9),
         ),
         onPressed: () {
           setState(() {
             _currentIndex = index;
           });
         },
-        splashColor: Colors.transparent,
       ),
     );
   }
 
   Widget _buildHomePage() {
     return Container(
-      color: Color(0xFFEEEEEE),
-      padding: EdgeInsets.zero,
+      color: Color.fromARGB(255, 255, 255, 255), // Light blue background color
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Your Recent Lectures',
-            style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+          SizedBox(height: 16.0),
+          Text.rich(
+            TextSpan(
+              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+              children: [
+                TextSpan(text: 'Your Recent '),
+                TextSpan(
+                  text: 'Lectures',
+                  style: TextStyle(
+                    color: Color(0xFF2962FF), // Set your preferred color
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 16.0),
-          FutureBuilder<List<Map<String, dynamic>>>(
-            future: _fetchRecentLectures(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return Text('Error fetching lectures: ${snapshot.error}');
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text('No recent lectures available.');
-              } else {
-                // Display the list of recent lectures
-                return Expanded(
-                  child: ListView.builder(
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _fetchRecentLectures(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Text('No recent lectures available.');
+                } else {
+                  return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 4.0,
-                        margin: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
+                        margin: EdgeInsets.symmetric(vertical: 8.0),
+                        color: Color(0xFF90CAF9), // Card background color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
                         child: ListTile(
                           title: Text(
                             snapshot.data![index]['moduleName'] ?? 'No Name',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18.0,
+                              color: Color(0xFF2962FF), // Text color
                             ),
                           ),
                           subtitle: Column(
@@ -213,19 +231,19 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             children: [
                               Text(
                                 'Module Code: ${snapshot.data![index]['moduleCode'] ?? 'No Code'}',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.black),
                               ),
                               Text(
                                 'Date: ${snapshot.data![index]['lectureDate'] ?? 'No Date'}',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.black),
                               ),
                               Text(
                                 'Time: ${snapshot.data![index]['lectureTime'] ?? 'No Time'}',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.black),
                               ),
                               Text(
                                 'Place: ${snapshot.data![index]['lecturePlace'] ?? 'No Place'}',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.black),
                               ),
                             ],
                           ),
@@ -235,10 +253,10 @@ class _StudentDashboardState extends State<StudentDashboard> {
                         ),
                       );
                     },
-                  ),
-                );
-              }
-            },
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:qrattendanceapp/screens/login_page.dart';
 import 'package:qrattendanceapp/screens/profile_details.dart';
+import 'package:qrattendanceapp/screens/settings_page.dart';
 
 class MorePage extends StatelessWidget {
   @override
@@ -20,7 +23,6 @@ class MorePage extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         children: [
           _buildListTile(Icons.person, 'My Profile', () {
-            // Navigate to ProfileDetails page
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProfileDetails()),
@@ -32,15 +34,46 @@ class MorePage extends StatelessWidget {
           }),
           SizedBox(height: 16.0),
           _buildListTile(Icons.settings, 'Settings', () {
-            // Add your Settings logic here
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsPage()),
+            );
           }),
           SizedBox(height: 16.0),
           _buildListTile(Icons.exit_to_app, 'Logout', () {
-            // Add your Logout logic here
+            _logout(context);
           }),
         ],
       ),
     );
+  }
+
+  void _logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+
+      // Close the current screen (More page)
+      Navigator.pop(context);
+
+      // Check if there are any existing routes before navigating
+      if (Navigator.of(context).canPop()) {
+        // Navigate to the login or home page as needed
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        ); // Example: Navigate to login page
+      } else {
+        // If there are no existing routes, you might want to navigate to the login page directly
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LoginPage()),
+        );
+      }
+    } catch (e) {
+      print('Error logging out: $e');
+      // Handle logout error
+      // Show a message or navigate to an error page as needed
+    }
   }
 
   Widget _buildListTile(IconData icon, String title, VoidCallback onTap) {
@@ -66,5 +99,3 @@ class MorePage extends StatelessWidget {
     );
   }
 }
-
-
