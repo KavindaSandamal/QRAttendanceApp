@@ -39,6 +39,7 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
     return PreferredSize(
       preferredSize: Size.fromHeight(70.0),
       child: AppBar(
+        backgroundColor: Color(0xFF2962FF),
         elevation: 0,
         leading: GestureDetector(
           onTap: () {
@@ -53,10 +54,10 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
           future: _fetchFullName(currentUser!.uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Welcome', style: TextStyle(color: Colors.black));
+              return Text('Welcome', style: TextStyle(color: Colors.white));
             } else if (snapshot.hasError) {
               return Text('Error fetching full name',
-                  style: TextStyle(color: Colors.black));
+                  style: TextStyle(color: Colors.white));
             } else {
               String fullName = snapshot.data ?? 'N/A';
               return Row(
@@ -82,13 +83,13 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
                       Text(
                         'Welcome Back',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 23.0,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         fullName,
-                        style: TextStyle(color: Colors.black, fontSize: 15.0),
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -202,7 +203,7 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
   // Function to build the home page
   Widget _buildHomePage() {
     return Container(
-      color: Color(0xFFEEEEEE),
+      color: Color.fromARGB(255, 255, 255, 255),
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: FutureBuilder<List<String>>(
         future: fetchModuleIds(),
@@ -246,19 +247,32 @@ class _LecturerDashboardState extends State<LecturerDashboard> {
                       return Card(
                         elevation: 5.0,
                         margin: EdgeInsets.symmetric(vertical: 8.0),
+                        color: Color(0xFF90CAF9),
                         child: ListTile(
-                          title: Text(title),
+                          title: Text(
+                            title,
+                            style: TextStyle(
+                                color: Color(0xFF2962FF),
+                                fontWeight: FontWeight.bold),
+                          ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Date: ${lectureData['date'] ?? 'N/A'}'),
-                              Text('Time: ${lectureData['time'] ?? 'N/A'}'),
                               Text(
-                                  'Location: ${lectureData['place'] ?? 'N/A'}'),
+                                'Date: ${lectureData['date'] ?? 'N/A'}',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              Text(
+                                'Time: ${lectureData['time'] ?? 'N/A'}',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              Text(
+                                'Location: ${lectureData['place'] ?? 'N/A'}',
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ],
                           ),
-                          trailing:
-                              Icon(Icons.arrow_forward_ios), // Add arrow icon
+                          trailing: Icon(Icons.arrow_forward_ios),
                           onTap: () {
                             // Navigate to ModuleAttendanceDetailsScreen with both moduleId and lectureId
                             Navigator.push(

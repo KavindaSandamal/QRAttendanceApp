@@ -100,17 +100,29 @@ class _LecturerModulesState extends State<LecturerModules> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),
                   child: Card(
+                    color: Color(0xFF90CAF9),
                     elevation: 5.0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: ListTile(
-                      title: Text(modules![index].moduleName),
+                      title: Text(
+                        modules![index].moduleName,
+                        style: TextStyle(
+                            color: Color(0xFF2962FF),
+                            fontWeight: FontWeight.bold),
+                      ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(modules![index].moduleCode),
-                          Text(modules![index].semester),
+                          Text(
+                            modules![index].moduleCode,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            modules![index].semester,
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ],
                       ),
                       trailing: IconButton(

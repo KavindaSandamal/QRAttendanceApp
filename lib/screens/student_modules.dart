@@ -1,18 +1,13 @@
-// student_modules.dart
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qrattendanceapp/screens/enrollement_form.dart';
 
 class StudentModulesPage extends StatelessWidget {
-  // Function to fetch enrolled modules for the current user
-  Future<List<String>> _fetchEnrolledModules() async {
-    // Replace 'Enrolles' with your actual collection name
+  Future<List<Map<String, dynamic>>> _fetchEnrolledModules() async {
     CollectionReference enrollesCollection =
         FirebaseFirestore.instance.collection('Enrolles');
 
-    // Get the current user ID
     String? studentId = FirebaseAuth.instance.currentUser?.uid;
 
     if (studentId != null) {
@@ -20,9 +15,11 @@ class StudentModulesPage extends StatelessWidget {
           .where('studentId', isEqualTo: studentId)
           .get();
 
-      // Extract module names from the snapshot
-      List<String> enrolledModules = enrollesSnapshot.docs
-          .map((doc) => doc['moduleName'].toString())
+      List<Map<String, dynamic>> enrolledModules = enrollesSnapshot.docs
+          .map((doc) => {
+                'moduleName': doc['moduleName'].toString(),
+                // Add other module details here if needed
+              })
           .toList();
 
       return enrolledModules;
@@ -42,10 +39,10 @@ class StudentModulesPage extends StatelessWidget {
             'Modules',
             style: TextStyle(color: Colors.white, fontSize: 25.0),
           ),
-          centerTitle: true, // Center the title horizontally
+          centerTitle: true,
         ),
       ),
-      body: FutureBuilder<List<String>>(
+      body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _fetchEnrolledModules(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -53,32 +50,24 @@ class StudentModulesPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error fetching enrolled modules'));
           } else {
-            List<String> enrolledModules = snapshot.data ?? [];
+            List<Map<String, dynamic>> enrolledModules = snapshot.data ?? [];
 
             return Column(
               children: [
-                // Display Enrolled Modules
                 Expanded(
                   child: enrolledModules.isEmpty
-                      ? Center(
-                          child: Text('No enrolled modules.'),
-                        )
+                      ? Center(child: Text('No enrolled modules.'))
                       : ListView.builder(
                           itemCount: enrolledModules.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(enrolledModules[index]),
-                              // Add any other information about the module here
-                            );
+                            return _buildModuleCard(enrolledModules[index]);
                           },
                         ),
                 ),
-                // Button to Enroll in New Module
                 Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(40.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigate to the enrollment form page
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -86,13 +75,50 @@ class StudentModulesPage extends StatelessWidget {
                         ),
                       );
                     },
-                    child: Text('Enroll in New Module'),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Color(0xFF2196F3), width: 2.0),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 20.0),
+                    ),
+                    child: Text(
+                      'Enroll in New Module',
+                      style: TextStyle(
+                        color: Color(0xFF2196F3), // Border color
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
             );
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildModuleCard(Map<String, dynamic> module) {
+    return Card(
+      elevation: 4.0,
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      color: Color(0xFF90CAF9),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: ListTile(
+        title: Text(
+          module['moduleName'] ?? 'No Name',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+            color: Color(0xFF2962FF),
+          ),
+        ),
+        // You can add other module details here if needed
       ),
     );
   }
