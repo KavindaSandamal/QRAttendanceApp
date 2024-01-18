@@ -11,6 +11,8 @@ class _SettingsPageState extends State<SettingsPage> {
   TextEditingController _fullNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
 
+  bool _isDarkMode = false;
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +78,8 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             _buildUserDetailsForm(),
             SizedBox(height: 16.0),
+            _buildThemeModeSwitch(),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 _updateUserDetails();
@@ -100,6 +104,23 @@ class _SettingsPageState extends State<SettingsPage> {
         TextField(
           controller: _emailController,
           decoration: InputDecoration(labelText: 'Email'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildThemeModeSwitch() {
+    return Row(
+      children: [
+        Text('Dark Mode'),
+        Switch(
+          value: _isDarkMode,
+          onChanged: (value) {
+            setState(() {
+              _isDarkMode = value;
+              _toggleDarkMode(value);
+            });
+          },
         ),
       ],
     );
@@ -130,5 +151,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _showErrorMessage(String message) {
     print(message);
+  }
+
+  void _toggleDarkMode(bool isDarkMode) {
+    if (isDarkMode) {
+      // Set dark mode
+      // You can customize the dark theme using ThemeData.dark()
+      // Example: MyApp(theme: ThemeData.dark(), ...)
+    } else {
+      // Set light mode
+      // You can customize the light theme using ThemeData.light()
+      // Example: MyApp(theme: ThemeData.light(), ...)
+    }
   }
 }
