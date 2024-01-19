@@ -40,7 +40,6 @@ dependencies:
   cloud_firestore: ^4.14.0
   firebase_storage: ^11.6.0
   image_picker: ^1.0.6
-  get: ^4.1.4
   qr_code_scanner: ^1.0.1
   http: 0.13.6
   intl: 0.18.1
@@ -52,6 +51,7 @@ dependencies:
   permission_handler: ^11.1.0
   lecle_downloads_path_provider: ^0.0.2+8
   mailer: ^6.0.1
+  get: ^4.6.6
 
 
 
@@ -76,6 +76,9 @@ flutter:
     - lib/assets/login_logo.jpg
     - lib/assets/signup_logo.jpg
     - lib/assets/profile.png
+    - lib/assets/splash_screen.png
+    - lib/assets/splash_logo.png
+    - lib/assets/white.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
