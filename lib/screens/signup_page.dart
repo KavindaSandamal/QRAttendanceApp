@@ -103,7 +103,7 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(30.0),
         color: Colors.white,
         child: Form(
           key: _formKey,
@@ -112,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
             children: [
               Image.asset(
                 'lib/assets/signup_logo.jpg',
-                height: 120.0,
+                height: 150.0,
               ),
               SizedBox(height: 16.0),
               Text(
@@ -229,7 +229,7 @@ class _SignupPageState extends State<SignupPage> {
                   },
                 ),
               ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 10.0),
               Container(
                 width: double.maxFinite,
                 child: ElevatedButton(

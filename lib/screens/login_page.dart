@@ -130,14 +130,14 @@ class _LoginPageState extends State<LoginPage> {
       home: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(20.0),
             color: Colors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
                   'lib/assets/login_logo.jpg',
-                  height: 200.0,
+                  height: 300.0,
                 ),
                 SizedBox(height: 16.0),
                 Text(

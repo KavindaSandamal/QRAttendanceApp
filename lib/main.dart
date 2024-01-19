@@ -4,6 +4,7 @@ import 'package:qrattendanceapp/screens/login_page.dart';
 import 'firebase_options.dart';
 import 'package:get/get.dart';
 import 'package:qrattendanceapp/repository/user_repository.dart';
+import 'package:qrattendanceapp/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,20 +12,20 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Get.put(UserRepository());
-  runApp(const MyApp());
+  runApp(SplashApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp();
+class SplashApp extends StatelessWidget {
+  const SplashApp();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login Demo',
+      home: SplashScreen(),
       theme: ThemeData(
+        // Customize the theme if needed
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
     );
   }
 }

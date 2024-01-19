@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -155,13 +156,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _toggleDarkMode(bool isDarkMode) {
     if (isDarkMode) {
-      // Set dark mode
-      // You can customize the dark theme using ThemeData.dark()
-      // Example: MyApp(theme: ThemeData.dark(), ...)
+      Get.changeThemeMode(ThemeMode.dark);
     } else {
-      // Set light mode
-      // You can customize the light theme using ThemeData.light()
-      // Example: MyApp(theme: ThemeData.light(), ...)
+      Get.changeThemeMode(ThemeMode.light);
     }
   }
 }
