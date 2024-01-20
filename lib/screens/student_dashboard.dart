@@ -227,10 +227,6 @@ class _StudentDashboardState extends State<StudentDashboard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Module Code: ${snapshot.data![index]['moduleCode'] ?? 'No Code'}',
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              Text(
                                 'Date: ${snapshot.data![index]['lectureDate'] ?? 'No Date'}',
                                 style: TextStyle(color: Colors.black),
                               ),
